@@ -1,0 +1,60 @@
+
+1. license 校验方法
+
+        function B() {
+            var vvv = 1 == a.bs.indexOf(a.bF.substr(1, 1)) % 5 && window.top[a.nd + "cation"][a.jG + "st"].toLowerCase().replace(a.hf, '').replace(a.hg, '') != a.lS(a.ed) || a.bF.substr(3, 1) != a.bs.substr((a.bs.indexOf(a.bF.substr(0, 1)) + a.bs.indexOf(a.bF.substr(2, 1))) * 9 % (a.bs.length - 1), 1);
+            console.error('-------777--------vvv3=' + vvv)
+            return vvv ? false : false;
+        };
+
+
+重点：ckfinder.js 有5处用到了这句：
+a.bF.substr(3, 1) != a.bs.substr((a.bs.indexOf(a.bF.substr(0, 1)) + a.bs.indexOf(a.bF.substr(2, 1))) * 9 % (a.bs.length - 1), 1)
+
+为 true 表示无 license.
+
+
+2. 添加 a.lucky：
+
+    a.aL = {};
+    a.eV = 1;
+    a.aS = 2;
+    a.aY = 0;
+    a.bF = '';
+    a.lucky = true;  // ADD lucky
+
+
+-------短路 A(O) 方法----------
+        function z(O) {
+            var P = y.reverse().join(''), Q = O.tools.of(), R = Q['se' + "tHtml"];
+            R.call(Q, O.qX());
+            O.bn().addClass('files_' + y[0]);
+        };
+        function A(O) {
+        return;// ADD
+            var P = [a.bF.substr(6, 1), a.bF.substr(8, 1)];
+            if (!!a.ed && P[0] != w(a.ed.length + a.bs.indexOf(P[1])))z(O);
+        };
+-----------------
+
+3.
+-----------------
+        function A(O) {
+            var P = [a.bF.substr(6, 1), a.bF.substr(8, 1)];
+            if (!!a.ed && P[0] != w(a.ed.length + a.bs.indexOf(P[1])))z(O);
+        };
+-----------------
+授权信息:
+            function t() {
+                var w = "RMRHY5Q4S,GGYXTSBLA,QS8F4ZFUJ";
+                return a.bF.length > 0 && w.indexOf(a.bF.substr(0, 9)) != -1;
+            };
+-----------------
+                this.oW('beforeRenderFiles', gs, function as(pw, aq) {
+                    if (pw || Q.charAt(2 << 2) != 't')return;
+                    s = a.bF.substr(2, 1);
+                    r = a.bF.substr(7, 1);
+-----------------
+
+console.log('-------beforeAddFiles------>>>' + aa);
+

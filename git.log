@@ -13,6 +13,8 @@ Create a remote repository for this project on the service of your choice.
 Grab its address (e.g. https://github.com/<my-org>/my-proj.git) and push the local repo to the remote.
 
 git remote add origin <repo-address>
+git remote add origin https://github.com/hsyh/thefinder.git
+
 git push -u origin master
 
 

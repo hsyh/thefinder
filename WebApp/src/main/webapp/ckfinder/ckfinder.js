@@ -2123,7 +2123,7 @@
         width: '100%',
         baseFloatZIndex: 10000,
         directDownload: false,
-        log: false,
+        log: false, // brett
         logStackTrace: true,
         rememberLastFolder: true,
         id: null,
@@ -2140,7 +2140,7 @@
         imagesMaxHeight: 0,
         selectActionType: 'js',
         resourceType: null,
-        disableHelpButton: false,
+        disableHelpButton: true,
         connectorPath: '',
         connectorInfo: '',
         uiColor: null,
@@ -2199,7 +2199,6 @@
                 'zh-cn': 1,
                 'zh-tw': 1
             }, load: function (p, q, r) {
-                console.error(p)
                 if (!p || !a.lang.ko[p])p = this.jV(q, p);
                 if (!this[p])a.scriptLoader.load(a.getUrl('lang/' + p + '.js'), function () {
                     r(p, CKFinder.lang[p]);
@@ -4955,7 +4954,7 @@
         });
         function B() {
             var vvv = 1 == a.bs.indexOf(a.bF.substr(1, 1)) % 5 && window.top[a.nd + "cation"][a.jG + "st"].toLowerCase().replace(a.hf, '').replace(a.hg, '') != a.lS(a.ed) || !a.lucky;
-            console.error('-------777--------vvv3=' + vvv)
+            // console.error('-------777--------vvv3=' + vvv)
             return vvv;
         };
         function C() {
@@ -7807,6 +7806,8 @@
             s.bh('UploadFileForm', ['requestUploadFileForm'], function z(w) {
                 var x = this.app.aV, y = this;
                 this.oW('beforeUploadFileForm', {folder: x, step: 1}, function F(A, B) {
+                    console.log('----brett---upload---------->>>' + A);
+                    console.log('----brett---upload---------->>>' + t());
                     if (A || t())return;
                     var C = this.data(), D = B.folder, E = 0;
                     if (!D) {
@@ -7868,6 +7869,7 @@
                 });
             });
             function t() {
+                return false;// ADD
                 var w = "RMRHY5Q4S,GGYXTSBLA,QS8F4ZFUJ";
                 return a.bF.length > 0 && w.indexOf(a.bF.substr(0, 9)) != -1;
             };

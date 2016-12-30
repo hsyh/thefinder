@@ -25,15 +25,15 @@ a.bF.substr(3, 1) != a.bs.substr((a.bs.indexOf(a.bF.substr(0, 1)) + a.bs.indexOf
 
 
 -------短路 A(O) 方法----------
-        function z(O) {
-            var P = y.reverse().join(''), Q = O.tools.of(), R = Q['se' + "tHtml"];
-            R.call(Q, O.qX());
-            O.bn().addClass('files_' + y[0]);
-        };
         function A(O) {
-        return;// ADD
+            return;// ADD
             var P = [a.bF.substr(6, 1), a.bF.substr(8, 1)];
             if (!!a.ed && P[0] != w(a.ed.length + a.bs.indexOf(P[1])))z(O);
+        };
+        function t() {
+            return false;// ADD
+            var w = "RMRHY5Q4S,GGYXTSBLA,QS8F4ZFUJ";
+            return a.bF.length > 0 && w.indexOf(a.bF.substr(0, 9)) != -1;
         };
 -----------------
 

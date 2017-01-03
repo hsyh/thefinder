@@ -95,7 +95,7 @@ scp -r ~/workspace/poetry-parent/poetry-web/target/poetry-web-1.0.0-SNAPSHOT/WEB
 scp -r ~/workspace/poetry-parent/poetry-web/target/poetry-web-1.0.0-SNAPSHOT/WEB-INF/lib/jboss-vfs*  root@xxx.xxx.xxx.xxx:~/poetry-web/WEB-INF/lib/
 scp -r ~/workspace/poetry-parent/poetry-web/target/poetry-web-1.0.0-SNAPSHOT/WEB-INF/lib/gson*  root@xxx.xxx.xxx.xxx:~/poetry-web/WEB-INF/lib/
 
-
+scp -r ~/workspace/poetry-parent/poetry-web/target/poetry-web-1.0.0-SNAPSHOT/WEB-INF/*.xml  root@xxx.xxx.xxx.xxx:~/poetry-web/WEB-INF/
 
 3.
 web.xml

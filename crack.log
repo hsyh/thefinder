@@ -58,3 +58,42 @@ a.bF.substr(3, 1) != a.bs.substr((a.bs.indexOf(a.bF.substr(0, 1)) + a.bs.indexOf
 
 console.log('-------beforeAddFiles------>>>' + aa);
 
+-----------------------------
+
+
+
+======== useage ======================
+首先：
+mvn install -pl FileEditorPlugin,ImageResizePlugin,WatermarkPlugin -DskipTests
+
+1.
+
+        <!--ckfinder-->
+        <dependency>
+            <groupId>com.ckfinder</groupId>
+            <artifactId>CKFinder</artifactId>
+            <version>${ckfinder.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>CKFinderPlugin-FileEditor</artifactId>
+            <version>${ckfinder.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>CKFinderPlugin-ImageResize</artifactId>
+            <version>${ckfinder.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>CKFinderPlugin-Watermark</artifactId>
+            <version>${ckfinder.version}</version>
+        </dependency>
+2.
+scp ~/workspace/CKFinder/WebApp/src/main/webapp/ckfinder.zip root@xx.xx.xx.xx:~/poetry-web/ecial/org/
+
+
+3.
+web.xml
+config.xml
+

@@ -18,3 +18,6 @@ git remote add origin https://github.com/hsyh/thefinder.git
 git push -u origin master
 
 
+---------
+
+mvn install -pl FileEditorPlugin,ImageResizePlugin,WatermarkPlugin -DskipTests

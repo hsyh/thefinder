@@ -18,8 +18,7 @@
 	http://docs.cksource.com/CKFinder_2.x/Developers_Guide/Java/Configuration/baseURL_and_baseDir
 	-->
 	<baseDir></baseDir>
-	<!--默认： DEFAULT_BASE_URL = "/userfiles"-->
-	<baseURL></baseURL>
+	<baseURL>/efinder/</baseURL>
 	<licenseKey></licenseKey>
 	<licenseName></licenseName>
 	<!--

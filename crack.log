@@ -90,7 +90,11 @@ mvn install -pl FileEditorPlugin,ImageResizePlugin,WatermarkPlugin -DskipTests
             <version>${ckfinder.version}</version>
         </dependency>
 2.
-scp ~/workspace/CKFinder/WebApp/src/main/webapp/ckfinder.zip root@xx.xx.xx.xx:~/poetry-web/ecial/org/
+scp -r ~/workspace/poetry-parent/poetry-web/target/poetry-web-1.0.0-SNAPSHOT/WEB-INF/lib/CKFinder*  root@xxx.xxx.xxx.xxx:~/poetry-web/WEB-INF/lib/
+scp -r ~/workspace/poetry-parent/poetry-web/target/poetry-web-1.0.0-SNAPSHOT/WEB-INF/lib/thumbnailator*  root@xxx.xxx.xxx.xxx:~/poetry-web/WEB-INF/lib/
+scp -r ~/workspace/poetry-parent/poetry-web/target/poetry-web-1.0.0-SNAPSHOT/WEB-INF/lib/jboss-vfs*  root@xxx.xxx.xxx.xxx:~/poetry-web/WEB-INF/lib/
+scp -r ~/workspace/poetry-parent/poetry-web/target/poetry-web-1.0.0-SNAPSHOT/WEB-INF/lib/gson*  root@xxx.xxx.xxx.xxx:~/poetry-web/WEB-INF/lib/
+
 
 
 3.

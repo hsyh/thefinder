@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.apache.commons.io.IOUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -175,6 +176,38 @@ public class Configuration implements IConfiguration {
 				}
 				if (childNode.getNodeName().equals("baseDir")) {
 					this.baseDir = nullNodeToString(childNode);
+					// +brett
+					if("".equals(this.baseDir)) {
+						// CATALINA_HOME, CATALINA_BASE, CATALINA_TMPDIR
+						this.baseDir = System.getenv("CATALINA_HOME");
+						if(this.baseDir == null || "".equals(this.baseDir)) {
+							this.baseDir = System.getProperty("user.home");
+							this.baseDir = PathUtils.addSlashToEnd(this.baseDir);
+							this.baseDir += "efinder/";
+						} else {
+							this.baseDir = PathUtils.addSlashToEnd(this.baseDir);
+							this.baseDir += "webapps/efinder/";
+						}
+						// create ${CATALINA_BASE}/Catalina/localhost/efinder.xml
+						File ctxXmlFile = new File(System.getenv("CATALINA_BASE") + "/conf/Catalina/localhost/efinder.xml");
+						if(!ctxXmlFile.exists()){
+							String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Context path=\"/efinder\"/>";
+							FileUtils.createPath(ctxXmlFile, true);
+							org.apache.commons.io.FileUtils.write(ctxXmlFile, xml);
+						}
+
+						// create ${CATALINA_HOME}/webapps/WEB-INF/web.xml
+						File webXmlFile = new File(this.baseDir + "WEB-INF/web.xml");
+						if(!webXmlFile.exists()){
+							FileUtils.createPath(webXmlFile, true);
+							String xmlContent = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+									"<web-app xmlns=\"http://java.sun.com/xml/ns/javaee\"\n" +
+									"         xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n" +
+									"         xsi:schemaLocation=\"http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd\"\n" +
+									"         version=\"3.0\"></web-app>";
+							org.apache.commons.io.FileUtils.write(webXmlFile, xmlContent);
+						}
+					} // end +brett
 					this.baseDir = PathUtils.escape(this.baseDir);
 					this.baseDir = PathUtils.addSlashToEnd(this.baseDir);
 				}

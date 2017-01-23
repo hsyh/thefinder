@@ -2149,7 +2149,7 @@
         maxSimultaneousUploads: 1,
         readOnly: false,
         selectMultiple: true,
-        popupTitle: 'CKFinder 2',
+        popupTitle: 'File Management',
         popupFeatures: 'location=no,menubar=no,toolbar=no,dependent=yes,minimizable=no,modal=yes,alwaysRaised=yes,resizable=yes'
     };
     CKFinder.config = a.config;

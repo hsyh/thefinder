@@ -20,4 +20,4 @@ git push -u origin master
 
 ---------
 
-mvn install -pl FileEditorPlugin,ImageResizePlugin,WatermarkPlugin -DskipTests
+mvn install -pl CKFinder,FileEditorPlugin,ImageResizePlugin,WatermarkPlugin -DskipTests

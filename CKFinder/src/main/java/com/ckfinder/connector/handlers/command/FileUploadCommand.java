@@ -103,11 +103,11 @@ public class FileUploadCommand extends Command implements IPostCommand {
 	/**
 	 * Executes file upload command.
 	 *
-	 * @param out the response output stream
+	 * @param response the response output stream
 	 * @throws ConnectorException when error occurs.
 	 */
 	@Override
-	public void execute(final OutputStream out) throws ConnectorException {
+	public void execute(final HttpServletResponse response) throws ConnectorException {
 		if (configuration.isDebugMode() && this.exception != null) {
 			throw new ConnectorException(this.errorCode, this.exception);
 		}
@@ -126,12 +126,12 @@ public class FileUploadCommand extends Command implements IPostCommand {
 			}
 
 			if (this.responseType != null && this.responseType.equals("txt")) {
-				out.write((this.newFileName + "|" + errorMsg).getBytes("UTF-8"));
+				response.getOutputStream().write((this.newFileName + "|" + errorMsg).getBytes("UTF-8"));
 			} else {
 				if (checkFuncNum()) {
-					handleOnUploadCompleteCallFuncResponse(out, errorMsg, path);
+					handleOnUploadCompleteCallFuncResponse(response.getOutputStream(), errorMsg, path);
 				} else {
-					handleOnUploadCompleteResponse(out, errorMsg);
+					handleOnUploadCompleteResponse(response.getOutputStream(), errorMsg);
 				}
 			}
 

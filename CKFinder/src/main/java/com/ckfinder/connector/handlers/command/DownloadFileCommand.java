@@ -13,7 +13,6 @@ package com.ckfinder.connector.handlers.command;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
@@ -47,11 +46,11 @@ public class DownloadFileCommand extends Command {
 	/**
 	 * executes the download file command. Writes file to response.
 	 *
-	 * @param out output stream
+	 * @param response output stream
 	 * @throws ConnectorException when something went wrong during reading file.
 	 */
 	@Override
-	public void execute(final OutputStream out) throws ConnectorException {
+	public void execute(final HttpServletResponse response) throws ConnectorException {
 		if (!checkIfTypeExists(this.type)) {
 			this.type = null;
 			throw new ConnectorException(
@@ -88,7 +87,7 @@ public class DownloadFileCommand extends Command {
 					Constants.Errors.CKFINDER_CONNECTOR_ERROR_FILE_NOT_FOUND);
 			}
 
-			FileUtils.printFileContentToResponse(file, out);
+			FileUtils.printFileContentToResponse(file, response.getOutputStream());
 		} catch (IOException e) {
 			throw new ConnectorException(
 				Constants.Errors.CKFINDER_CONNECTOR_ERROR_ACCESS_DENIED, e);

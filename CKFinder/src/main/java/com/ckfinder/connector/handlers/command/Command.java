@@ -13,7 +13,6 @@ package com.ckfinder.connector.handlers.command;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.regex.Pattern;
 
 import javax.servlet.ServletContext;
@@ -76,10 +75,12 @@ public abstract class Command {
 		this.initParams(request, configuration, params);
 		try {
 			setResponseHeader(response, ServletContextFactory.getServletContext());
-			execute(response.getOutputStream());
+			execute(response);
 			response.getOutputStream().flush();
 			response.getOutputStream().close();
 		} catch (IOException e) {
+			System.err.println("runCommand error.");
+			e.printStackTrace();
 			throw new ConnectorException(
 				Constants.Errors.CKFINDER_CONNECTOR_ERROR_ACCESS_DENIED, e);
 		}
@@ -190,10 +191,10 @@ public abstract class Command {
 	/**
 	 * executes command and writes to response.
 	 *
-	 * @param out response output stream
+	 * @param response response output stream
 	 * @throws ConnectorException when error occurs
 	 */
-	public abstract void execute(final OutputStream out)
+	public abstract void execute(final HttpServletResponse response)
 		throws ConnectorException;
 
 	/**

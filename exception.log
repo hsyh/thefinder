@@ -1,0 +1,32 @@
+
+0219 23:00:06.417 [https-openssl-apr-443-exec-98] ERROR 500.jsp - 500 系统错误, params={FileName=TTFB.png, command=Thumbnail, currentFolder=/, fileHash=201702192256-52, hash=42d08276258717e, langCode=zh-cn, type=Images}
+java.lang.IllegalStateException: Cannot call reset() after response has been committed
+	at org.apache.catalina.connector.ResponseFacade.reset(ResponseFacade.java:347) ~[catalina.jar:8.5.11]
+	at javax.servlet.ServletResponseWrapper.reset(ServletResponseWrapper.java:194) ~[servlet-api.jar:3.1.FR]
+	at javax.servlet.ServletResponseWrapper.reset(ServletResponseWrapper.java:194) ~[servlet-api.jar:3.1.FR]
+	at javax.servlet.ServletResponseWrapper.reset(ServletResponseWrapper.java:194) ~[servlet-api.jar:3.1.FR]
+	at com.ckfinder.connector.handlers.command.ErrorCommand.setResponseHeader(ErrorCommand.java:65) ~[CKFinder-2.6.2.1.jar:2.6.2.1]
+	at com.ckfinder.connector.handlers.command.Command.runCommand(Command.java:78) ~[CKFinder-2.6.2.1.jar:2.6.2.1]
+	at com.ckfinder.connector.ConnectorServlet$CommandHandlerEnum.execute(ConnectorServlet.java:457) ~[CKFinder-2.6.2.1.jar:2.6.2.1]
+	at com.ckfinder.connector.ConnectorServlet$CommandHandlerEnum.access$000(ConnectorServlet.java:317) ~[CKFinder-2.6.2.1.jar:2.6.2.1]
+	at com.ckfinder.connector.ConnectorServlet.handleError(ConnectorServlet.java:261) ~[CKFinder-2.6.2.1.jar:2.6.2.1]
+	at com.ckfinder.connector.ConnectorServlet.getResponse(ConnectorServlet.java:180) ~[CKFinder-2.6.2.1.jar:2.6.2.1]
+	at com.ckfinder.connector.ConnectorServlet.doGet(ConnectorServlet.java:81) ~[CKFinder-2.6.2.1.jar:2.6.2.1]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:622) ~[servlet-api.jar:na]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:729) ~[servlet-api.jar:na]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:230) ~[catalina.jar:8.5.11]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:165) ~[catalina.jar:8.5.11]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52) ~[tomcat-websocket.jar:8.5.11]
+
+
+Fix:
+
+		try {
+			response.reset();
+		} catch (IllegalStateException e) {
+			System.err.println("com.ckfinder.connector.handlers.command.ErrorCommand: response.reset() failed." +
+					" cause the response has already been committed.");
+		}
+
+
+

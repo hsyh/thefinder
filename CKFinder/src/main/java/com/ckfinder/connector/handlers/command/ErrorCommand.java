@@ -13,7 +13,6 @@ package com.ckfinder.connector.handlers.command;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.regex.Pattern;
 
 import javax.servlet.ServletContext;
@@ -36,25 +35,32 @@ public class ErrorCommand extends Command {
 	private HttpServletResponse response;
 
 	@Override
-	public void execute(final OutputStream out) throws ConnectorException {
+	public void execute(final HttpServletResponse response) throws ConnectorException {
 		try {
-			response.setHeader("X-CKFinder-Error", String.valueOf(e.getErrorCode()));
+			System.err.println("ConnectorException: " + e.getErrorCode() + ", " + e.getErrorMsg());
+			e.printStackTrace();
+
+			this.response.setHeader("X-CKFinder-Error", String.valueOf(e.getErrorCode()));
 			switch (e.getErrorCode()) {
 				case Constants.Errors.CKFINDER_CONNECTOR_ERROR_INVALID_REQUEST:
 				case Constants.Errors.CKFINDER_CONNECTOR_ERROR_INVALID_NAME:
 				case Constants.Errors.CKFINDER_CONNECTOR_ERROR_THUMBNAILS_DISABLED:
 				case Constants.Errors.CKFINDER_CONNECTOR_ERROR_UNAUTHORIZED:
-					response.sendError(HttpServletResponse.SC_FORBIDDEN);
+					this.response.sendError(HttpServletResponse.SC_FORBIDDEN);
 					break;
 				case Constants.Errors.CKFINDER_CONNECTOR_ERROR_ACCESS_DENIED:
-					response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+					this.response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 					break;
 				default:
-					response.sendError(HttpServletResponse.SC_NOT_FOUND);
+					this.response.sendError(HttpServletResponse.SC_NOT_FOUND);
 					break;
 			}
-
+		} catch (IllegalStateException e1) {
+			System.err.println("execute: com.ckfinder.connector.handlers.command.ErrorCommand: response.sendError() failed." +
+					" cause the response has already been committed.");
+//			e1.printStackTrace();
 		} catch (IOException ioex) {
+			ioex.printStackTrace();
 			throw new ConnectorException(ioex);
 		}
 	}
@@ -62,7 +68,13 @@ public class ErrorCommand extends Command {
 	@Override
 	public void setResponseHeader(final HttpServletResponse response,
 		final ServletContext sc) {
-		response.reset();
+		try {
+			response.reset();
+		} catch (IllegalStateException e1) {
+			System.err.println("setResponseHeader: com.ckfinder.connector.handlers.command.ErrorCommand: response.reset() failed." +
+					" cause the response has already been committed.");
+//			e1.printStackTrace();
+		}
 		this.response = response;
 
 	}

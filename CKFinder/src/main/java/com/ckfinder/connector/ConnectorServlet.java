@@ -163,15 +163,18 @@ public class ConnectorServlet extends HttpServlet {
 					if (!isNativeCommand) {
 						command = null;
 					}
+					System.err.println(command + ", after-event, " + isNativeCommand);
 					executeNativeCommand(command, request, response, configuration, isNativeCommand);
 				}
 			} else {
 				if (!isNativeCommand) {
 					command = null;
 				}
+				System.err.println(command + ", no-event, " + isNativeCommand);
 				executeNativeCommand(command, request, response, configuration, isNativeCommand);
 			}
 		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
 			if (Boolean.valueOf(getServletConfig().getInitParameter("debug"))) {
 				Logger.getLogger(ConnectorServlet.class.getName()).log(Level.SEVERE, "Couldn't execute native command.", e);
 				response.reset();
@@ -199,7 +202,7 @@ public class ConnectorServlet extends HttpServlet {
 	 *
 	 * @param command string representing command name
 	 * @param request current request object
-	 * @param respose current response object
+	 * @param response current response object
 	 * @param configuration CKFinder connector configuration
 	 * @param isNativeCommand flag indicating whether command is available in enumeration object
 	 *
@@ -208,12 +211,15 @@ public class ConnectorServlet extends HttpServlet {
 	 */
 	private void executeNativeCommand(String command, final HttpServletRequest request,
 		final HttpServletResponse response, IConfiguration configuration,
-		boolean isNativeCommand) throws IllegalArgumentException, ConnectorException {
+		boolean isNativeCommand) throws  ConnectorException {
 		if (isNativeCommand) {
-			CommandHandlerEnum cmd = CommandHandlerEnum.valueOf(command.toUpperCase());
-			cmd.execute(
-				request, response, configuration, getServletContext());
+			System.err.println("executeNativeCommand --> command: " + command);
+			CommandHandlerEnum cmd = CommandHandlerEnum.valueOf(command.toUpperCase()); // throws IllegalArgumentException when provided command is not found in enumeration object
+			System.err.println(command+"executeNativeCommand --> start");
+			cmd.execute(request, response, configuration, getServletContext());
+			System.err.println(command+"executeNativeCommand --> end");
 		} else {
+			System.err.println("false_executeNativeCommand --> command: " + command);
 			throw new ConnectorException(
 				Constants.Errors.CKFINDER_CONNECTOR_ERROR_INVALID_COMMAND, false);
 		}

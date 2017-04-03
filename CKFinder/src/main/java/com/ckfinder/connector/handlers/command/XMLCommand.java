@@ -12,7 +12,6 @@
 package com.ckfinder.connector.handlers.command;
 
 import java.io.IOException;
-import java.io.OutputStream;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -53,14 +52,14 @@ public abstract class XMLCommand extends Command {
 	/**
 	 * executes XML command. Creates XML response and writes it to response output stream.
 	 *
-	 * @param out response output stream
+	 * @param response response output stream
 	 * @throws ConnectorException to handle in error handler.
 	 */
 	@Override
-	public void execute(final OutputStream out) throws ConnectorException {
+	public void execute(final HttpServletResponse response) throws ConnectorException {
 		try {
 			createXMLResponse(getDataForXml());
-			out.write(creator.getDocumentAsText().getBytes("UTF-8"));
+			response.getOutputStream().write(creator.getDocumentAsText().getBytes("UTF-8"));
 		} catch (ConnectorException e) {
 			throw e;
 		} catch (IOException e) {

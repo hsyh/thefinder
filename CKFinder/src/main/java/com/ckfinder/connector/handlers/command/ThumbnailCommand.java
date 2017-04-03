@@ -116,7 +116,7 @@ public class ThumbnailCommand extends Command {
 		if (mimetype != null) {
 			response.setContentType(mimetype);
 		}
-		response.addHeader("Content-Disposition", "attachment; filename=\"" + this.fileName + "\"");
+//		response.addHeader("Content-Disposition", "attachment; filename=\"" + this.fileName + "\"");
 		// set to fill some params later.
 		this.response = response;
 
@@ -150,13 +150,20 @@ public class ThumbnailCommand extends Command {
 	}
 
 	@Override
-	public void execute(final OutputStream out) throws ConnectorException {
+	public void execute(final HttpServletResponse response) throws ConnectorException {
+
+		// +brett
+		// 解决 chrome https2.0 出现图片无法显示的问题（response.getOutputStream() 被调用之后，不可再向header写数据）
+//		ERR_SPDY_PROTOCOL_ERROR: HTTP2_STREAM_ERROR --> description = "DATA received before headers."
+
 		validate();
 		createThumb();
 		if (setResponseHeadersAfterCreatingFile()) {
 			try {
-				FileUtils.printFileContentToResponse(thumbFile, out);
+				FileUtils.printFileContentToResponse(thumbFile, response.getOutputStream());
 			} catch (IOException e) {
+				System.err.println("printFileContentToResponse error.");
+				e.printStackTrace();
 				if (configuration.isDebugMode()) {
 					throw new ConnectorException(e);
 				}
@@ -168,6 +175,7 @@ public class ThumbnailCommand extends Command {
 			}
 		} else {
 			try {
+				System.err.println("ckfinder: image file not modify.");
 				this.response.reset();
 				this.response.sendError(HttpServletResponse.SC_NOT_MODIFIED);
 			} catch (IOException e1) {
@@ -282,7 +290,8 @@ public class ThumbnailCommand extends Command {
 		// Set content size
 		File file = new File(this.fullCurrentPath, this.fileName);
 		try {
-			String etag = Long.toHexString(file.lastModified()).concat("-").concat(Long.toHexString(file.length()));
+			String etag = Long.toHexString(file.lastModified());
+			etag = etag.substring(etag.length()-3,etag.length()).concat("-").concat(Long.toHexString(file.length()));
 			if (etag.equals(this.ifNoneMatch)) {
 				return false;
 			} else {
@@ -292,13 +301,16 @@ public class ThumbnailCommand extends Command {
 			if (file.lastModified() <= this.ifModifiedSince) {
 				return false;
 			} else {
-				Date date = new Date(System.currentTimeMillis());
-				SimpleDateFormat df = new SimpleDateFormat(
-						"EEE, dd MMMM yyyy HH:mm:ss z");
-				response.setHeader("Last-Modified", df.format(date));
+//				Date date = new Date(System.currentTimeMillis());
+				// Last-Modified:Sat, 23 Dec 1995 22:31:19 GMT
+//				SimpleDateFormat df = new SimpleDateFormat(
+//						"EEE, dd MMMM yyyy HH:mm:ss z");
+//				response.setHeader("Last-Modified", df.format(date));
+				response.setDateHeader("Last-Modified", System.currentTimeMillis());
 			}
 			response.setContentLength((int) file.length());
 		} catch (SecurityException e) {
+			e.printStackTrace();
 			throw new ConnectorException(
 					Constants.Errors.CKFINDER_CONNECTOR_ERROR_ACCESS_DENIED, e);
 		}
